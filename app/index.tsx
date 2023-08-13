@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import TrainingItem from "@/components/TrainingItem";
-import { Training } from "@/entities/Training";
+import { TrainingDto } from "@/dtos/TrainingDto";
 import { Ionicons } from '@expo/vector-icons';
-import Colors from "@/constants/Colors";
 import { 
     ThemedView,
     ThemedText,
@@ -10,13 +9,19 @@ import {
 } from '@/components/Themed'
 import { Link, router } from "expo-router";
 import CommonStyles from '@/constants/CommonStyleSheet'
+import Repositories from "@/data/database"
+import { useEffect, useState } from "react";
 
 export default function TrainingsListScreen() {
-    const trainings: Training[] = [
-        new Training("Training 1", "Chest - Shoulders - Biceps"),
-        new Training("Training 2", "Legs - Abs"),
-        new Training("Training 3", "Back - Triceps")
-    ]
+
+    const [trainings, setTrainings] = useState<TrainingDto[]>([])
+
+    useEffect(() => {
+        Repositories.trainingsRepository
+        .getAll()
+        .then(setTrainings)
+        .catch((err) => console.log("Error", err))
+    }, [])
 
     return (
         <ThemedView style={CommonStyles.flexContainer}>

@@ -1,25 +1,32 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
     ThemedText,
     ThemedView
 } from "@/components/Themed"
 import CommonStyles from '@/constants/CommonStyleSheet'
-import { Training } from "@/entities/Training";
-import { Exercise } from "@/entities/Exercise";
-import { ScalarOrRange } from "@/entities/ScalarOrRange";
+import { TrainingDto } from "@/dtos/TrainingDto";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "@/components/ExerciseItem";
+import Repositories from "@/data/database"
 
-export default function TrainingDetailsScreen() {
+export default async function TrainingDetailsScreen() {
     const { trainingName } = useLocalSearchParams()
 
-    const training = new Training(trainingName as string, "Chest - Shoulders - Biceps")
-    training.addExercise(new Exercise("Chest press (cable)", 4, new ScalarOrRange(12, 15), "24kg"))
-    training.addExercise(new Exercise("Chest press (device)", 3, new ScalarOrRange(10, 12), "20kg"))
-    training.addExercise(new Exercise("Fly", 3, new ScalarOrRange(10, 12), "65"))
-    training.addExercise(new Exercise("Shoulder press", 4, new ScalarOrRange(12, 15), "35kg"))
-    training.addExercise(new Exercise("Lateral rise", 3, new ScalarOrRange(10, 12), "100 dugi neki description aaaaaaaaaaaaaAAAAAAAAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCDDDDDDEEEEE"))
-    training.addExercise(new Exercise("Biceps curl", 4, new ScalarOrRange(12, 15), "55kg"))
+    const training: TrainingDto | null = await Repositories.trainingsRepository.getByName(trainingName as string)
+
+    if (training === null) {
+        console.log(`Training ${trainingName} does not exist!`)
+        router.back()
+        return
+    }
+    // const training = new TrainingDto(trainingName as string, "Chest - Shoulders - Biceps")
+    // training.addExercise(new ExerciseDto("Chest press (cable)", 4, new ScalarOrRange(12, 15), "24kg"))
+    // training.addExercise(new ExerciseDto("Chest press (device)", 3, new ScalarOrRange(10, 12), "20kg"))
+    // training.addExercise(new ExerciseDto("Fly", 3, new ScalarOrRange(10, 12), "65"))
+    // training.addExercise(new ExerciseDto("Shoulder press", 4, new ScalarOrRange(12, 15), "35kg"))
+    // training.addExercise(new ExerciseDto("Lateral rise", 3, new ScalarOrRange(10, 12), "100 dugi neki description aaaaaaaaaaaaaAAAAAAAAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCDDDDDDEEEEE"))
+    // training.addExercise(new ExerciseDto("Biceps curl", 4, new ScalarOrRange(12, 15), "55kg"))
+
 
     return (
         <ThemedView style={CommonStyles.flexContainer}>

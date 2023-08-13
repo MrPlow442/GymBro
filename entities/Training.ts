@@ -1,19 +1,21 @@
-import { Exercise } from "./Exercise"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Exercise } from "./Exercise";
 
+@Entity('trainings')
 export class Training {
+    @PrimaryGeneratedColumn()
+    id?: number
+
+    @Column({name: 'name'})
     name: string
-    description?: string 
-    _exercises: Exercise[] = []
-    constructor(name: string, description?: string) {
-        this.name = name,
-        this.description = description
-    }
 
-    public addExercise(exercise: Exercise) {
-        this._exercises.push(exercise)
-    }
+    @Column({name: 'description'})
+    description?: string
 
-    get exercises(): Exercise[] {
-        return this._exercises;
-    }
+    //user: string
+    
+    @OneToMany(() => Exercise, (exercise) => exercise.training, {
+        cascade: true
+    })
+    exercises: Exercise[]
 }

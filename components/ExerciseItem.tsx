@@ -3,9 +3,9 @@ import { StyleSheet, useColorScheme } from 'react-native';
 import { ThemedText, ThemedView } from '@/components/Themed'
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
-import { Exercise } from "@/entities/Exercise";
+import { ExerciseDto } from "@/dtos/ExerciseDto";
 
-export default function ExerciseItem({exercise}: {exercise: Exercise}) {
+export default function ExerciseItem({exercise}: {exercise: ExerciseDto}) {
   const theme = useColorScheme() ?? 'light';  
   const [collapsed, setCollapsed] = useState(false)
 

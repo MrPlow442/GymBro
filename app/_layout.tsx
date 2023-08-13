@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';

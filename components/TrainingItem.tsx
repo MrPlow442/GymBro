@@ -1,10 +1,10 @@
-import { Training } from "@/entities/Training";
+import { TrainingDto } from "@/dtos/TrainingDto";
 import { StyleSheet, View, useColorScheme, Pressable } from 'react-native';
 import { ThemedText } from '@/components/Themed'
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
 
-export default function TrainingItem({training}: {training: Training}) {
+export default function TrainingItem({training}: {training: TrainingDto}) {
   const theme = useColorScheme() ?? 'light';  
   return (
     <Pressable onPress={() => router.push({ pathname: '/(trainings)/details', params: { trainingName: training.name }})}>
